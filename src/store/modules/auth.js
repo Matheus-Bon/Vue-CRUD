@@ -9,6 +9,7 @@ export const auth = {
     auth_info: {
       name: null,
       email: null,
+      roles: null,
     },
   },
 
@@ -32,7 +33,6 @@ export const auth = {
         const response = await axios.post("/login", loginData);
         context.commit("SET_AUTH_TOKEN", response.data.access_token);
         context.commit("SET_AUTH_INFO", response.data.user);
-        resolve(response);
       } catch (err) {
         console.log(err);
       }
@@ -46,7 +46,6 @@ export const auth = {
             }
         });
         context.commit("SET_AUTH_LOGOUT");
-        resolve(response);
       } catch (err) {
         console.log(err);
       }
@@ -61,6 +60,7 @@ export const auth = {
     SET_AUTH_INFO(state, info) {
       state.auth_info.name = info.name;
       state.auth_info.email = info.email;
+      state.auth_info.roles = info.roles[0].name;
     },
 
     SET_AUTH_LOGOUT(state) {
@@ -70,6 +70,7 @@ export const auth = {
       state.auth_info = {
         name: null,
         email: null,
+        roles: null,
       };
     },
   },
