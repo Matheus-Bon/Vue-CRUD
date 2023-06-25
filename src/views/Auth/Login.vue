@@ -12,10 +12,10 @@ const email = ref("");
 const password = ref("");
 
 const login = () => {
-  const loginData = {email: email.value, password: password.value}
-  store.dispatch('login', loginData)
-  router.push({name: 'dashboard'})
-}
+  const loginData = { email: email.value, password: password.value };
+  store.dispatch("login", loginData);
+  router.push({ name: "dashboard" });
+};
 </script>
 
 <template>

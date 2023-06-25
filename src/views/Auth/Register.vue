@@ -30,13 +30,6 @@ const submit = async () => {
   }
 };
 
-onMounted(() => {
-  const user = sessionStorage.getItem("user-info");
-
-  if (user) {
-    router.push({ name: "dashboard" });
-  }
-});
 </script>
 <template>
   <GuestLayout>

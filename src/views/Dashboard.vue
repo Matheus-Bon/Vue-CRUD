@@ -3,14 +3,12 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { computed, onBeforeMount, onMounted, ref } from "vue";
 import ModalCreate from "../components/ModalCreate.vue";
-import ModalUpdate from "../components/ModalUpdate.vue";
 import axios from "axios";
 
 const router = useRouter();
 const store = useStore();
 const user = store.getters.GET_AUTH_INFO;
 const users = ref([]);
-const selectedUser = ref();
 
 // Define se o user está logado (true)
 const loggedInStatus = computed(() => {
@@ -22,7 +20,7 @@ const token = store.getters.GET_AUTH_TOKEN;
 
 const logout = async () => {
   await store.dispatch("logout");
-  router.push({ name: "login" });
+  router.push("/login");
 };
 
 /* Pega a lista de users da API */
@@ -32,10 +30,7 @@ const fetchUsers = async () => {
       Authorization: "Bearer " + token,
     },
   });
-
   users.value = response.data;
-
-  console.log(users.value);
 };
 
 const deleteUser = async (id) => {
@@ -55,15 +50,18 @@ const deleteUser = async (id) => {
       alert("User deletado!");
     }
   } catch (err) {
-    alert("Você não tem permissão para excluir User.\n\n" + 'Erro: ' + err);
-    
-    
+    alert("Você não tem permissão para excluir User.\n\n" + "Erro: " + err);
   }
 };
 
 onMounted(() => {
   fetchUsers();
 });
+
+// Redireiciona o user caso ele não tenha token para fazer login
+if (store.getters.GET_AUTH_TOKEN == null) {
+  useRouter.push({ name: "dashboard" });
+}
 </script>
 
 <template>
@@ -74,7 +72,7 @@ onMounted(() => {
       >
         <ul class="flex flex-row gap-3 items-center">
           <li>
-            <p class="dark:text-gray-200">{{ user.name }} | {{ user.roles }}</p>
+            <p class="dark:text-gray-200">{{ user.name }}</p>
           </li>
           <li>
             <button

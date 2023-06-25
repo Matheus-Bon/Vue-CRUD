@@ -9,7 +9,6 @@ export const auth = {
     auth_info: {
       name: null,
       email: null,
-      roles: null,
     },
   },
 
@@ -60,7 +59,6 @@ export const auth = {
     SET_AUTH_INFO(state, info) {
       state.auth_info.name = info.name;
       state.auth_info.email = info.email;
-      state.auth_info.roles = info.roles[0].name;
     },
 
     SET_AUTH_LOGOUT(state) {
@@ -70,7 +68,6 @@ export const auth = {
       state.auth_info = {
         name: null,
         email: null,
-        roles: null,
       };
     },
   },
